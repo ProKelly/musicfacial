@@ -39,38 +39,39 @@ This project is a web application built using Django that uses facial detection 
 
 1. Clone the repository:
 
-### bash
-git clone https://github.com/ProKelly/musicfacial.git
-cd musicfacial ''
+## bash
+
+- git clone https://github.com/ProKelly/musicfacial.git
+- cd musicfacial 
 
 2. Create a virtual environment and activate it:
 
-python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+- python -m venv venv
+- source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
 3. pip install -r requirements.txt
 
-pip install -r requirements.txt
+- pip install -r requirements.txt
 
 4. Set up the environment variables. Create a .env file in the project root and add the following:
 
-SECRET_KEY=your_secret_key
-DEBUG=True  # Set to False in production
-ALLOWED_HOSTS=localhost, 127.0.0.1
+- SECRET_KEY=your_secret_key
+- DEBUG=True  # Set to False in production
+- ALLOWED_HOSTS=localhost, 127.0.0.1
 
-YOUTUBE_API_KEY=your_youtube_api_key
+- YOUTUBE_API_KEY=your_youtube_api_key
 
 5. Apply migrations:
 
-python manage.py migrate
+- python manage.py migrate
 
 6. Create a superuser:
 
-python manage.py createsuperuser
+- python manage.py createsuperuser
 
-7. un the development server:
+7. run the development server:
 
-python manage.py runserver
+- python manage.py runserver
 
 8. pen your browser and go to http://localhost:8000.
 
