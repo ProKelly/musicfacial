@@ -39,7 +39,7 @@ This project is a web application built using Django that uses facial detection 
 
 1. Clone the repository:
 
-## bash
+*bash*
 
 - git clone https://github.com/ProKelly/musicfacial.git
 - cd musicfacial 
