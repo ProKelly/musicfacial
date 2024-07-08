@@ -1,0 +1,18 @@
+<div class="container mx-auto flex justify-between items-center">
+  <a href="{% url 'base_app:index' %}" class="text-white text-2xl font-bold hover:text-pink-500 transition duration-300">MusicFacial</a>
+  <nav class="flex space-x-4">
+    <a href="{% url 'base_app:index' %}" class="text-white hover:text-pink-500 transition duration-300">Home</a>
+    {% if user.is_authenticated %}
+      <a href="{% url 'base_app:logout' %}" class="text-white hover:text-pink-500 transition duration-300"
+         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+      <form id="logout-form" action="{% url 'base_app:logout' %}" method="POST" style="display: none;">
+        {% csrf_token %}
+      </form>
+    {% else %}
+      <a href="{% url 'base_app:login' %}" class="text-white hover:text-pink-500 transition duration-300">Login</a>
+      <a href="{% url 'base_app:register' %}" class="text-white hover:text-pink-500 transition duration-300">Register</a>
+    {% endif %}
+  </nav>
+</div>
+
+

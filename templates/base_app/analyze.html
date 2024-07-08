@@ -1,0 +1,116 @@
+{% extends 'main.html' %}
+
+{% block title %}Analyze Image{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+    <!-- Left Card: Camera and Captured Image -->
+    <div class="max-w-lg p-8 bg-white bg-opacity-5 rounded-lg shadow-lg relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-10 rounded-3xl"></div>
+        <div class="relative z-10 text-center">
+            <h1 class="text-3xl font-bold mb-6 text-white animate-pulse">Analyze Your Emotion</h1>
+            <div id="camera-container" class="mb-4">
+                <video id="video" class="rounded-lg shadow-md border-4" autoplay></video>
+                <button id="capture" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-purple-500 hover:to-blue-500 text-white font-bold py-2 px-4 rounded-lg mt-4 transition duration-500 ease-in-out transform hover:scale-105">Capture</button>
+            </div>
+            <canvas id="canvas" class="hidden"></canvas>
+            <div id="photo-container" class="hidden">
+                <img id="captured-photo" class="rounded-lg shadow-md border-4 mx-auto" />
+                <div id="scanning-effect" class="mt-4 text-center text-white">Scanning...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Card: Results -->
+    <div class="max-w-lg p-8 bg-white bg-opacity-5 rounded-lg shadow-lg relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-700 opacity-10 rounded-3xl"></div>
+        <div class="relative z-10 text-center">
+            <h2 class="text-3xl font-bold mb-6 text-white">Recommended Music</h2>
+            <div id="result" class="text-lg text-gray-800">
+                {% if messages %}
+                    {% for message in messages %}
+                        {{message}}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const captureButton = document.getElementById('capture');
+    const resultDiv = document.getElementById('result');
+    const photoContainer = document.getElementById('photo-container');
+    const capturedPhoto = document.getElementById('captured-photo');
+    const scanningEffect = document.getElementById('scanning-effect');
+    const cameraContainer = document.getElementById('camera-container');
+    let stream;
+
+    // Access the camera
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then((mediaStream) => {
+            stream = mediaStream;
+            video.srcObject = stream;
+            video.play();
+        })
+        .catch((err) => {
+            console.error("Error accessing the camera: ", err);
+        });
+
+    // Capture the image
+    captureButton.addEventListener('click', () => {
+        const context = canvas.getContext('2d');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        const dataUrl = canvas.toDataURL('image/png');
+        capturedPhoto.src = dataUrl;
+        photoContainer.classList.remove('hidden');
+        cameraContainer.classList.add('hidden');
+
+        // Stop the camera
+        stream.getTracks().forEach(track => track.stop());
+
+        // Show scanning effect
+        scanningEffect.classList.remove('hidden');
+        resultDiv.innerHTML = '';
+
+        sendImageForAnalysis(dataUrl);
+    });
+
+    // Send the image to Django for analysis
+    function sendImageForAnalysis(imageData) {
+        fetch("{% url 'base_app:analyze' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: new URLSearchParams({
+                'image': imageData,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            displayResult(data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
+    // Display the result
+    function displayResult(data) {
+        scanningEffect.classList.add('hidden');
+        resultDiv.innerHTML = `
+            <h2 class="text-2xl font-bold mb-4 text-white box">Recommended Music</h2>
+            <p class="text-lg text-white mb-2">${data.musicRecommendation}</p>
+            <a href="${data.youtubeLink}" target="_blank" class="text-blue-500 hover:underline mb-3 shadow-sm -mx-4 -my-2">Listen on YouTube</a>
+            <h2 class="text-lg text-white">Emotion Detected: ${data.emotion}</h2>
+        `;
+    }
+</script>
+{% endblock %}

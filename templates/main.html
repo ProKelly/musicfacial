@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .bg-hero {
+      background-image: url('/static/imgs/WhatsApp Image 2024-07-06 at 3.06.05 AM.jpeg');
+      background-size: cover;
+      background-position: center;
+    }
+  </style>
+  <title>{% block title %}Facial Recognition Music Recommendation{% endblock %}</title>
+</head>
+<body class="bg-hero min-h-screen flex flex-col relative">
+  <header class="w-full bg-opacity-70 bg-black p-4 shadow-md">
+    {% include "navbar.html" %}
+  </header>
+
+  <main class="flex-grow flex flex-col items-center justify-center p-6 bg-opacity-30 bg-black shadow-lg rounded-lg text-white relative">
+    <div class="absolute inset-0 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 blur-2xl opacity-30"></div>
+    <div class="relative z-10">
+      {% block content %}
+      <!-- Page-specific content will be inserted here -->
+      {% endblock %}
+    </div>
+  </main>
+
+  <footer class="w-full mt-auto bg-gray-800 p-4 text-center text-white bg-opacity-75">
+    <p>&copy; 2024 MusicFacial. All rights reserved.</p>
+  </footer>
+
+  {% block scripts %}
+  <!-- Page-specific scripts will be inserted here -->
+  {% endblock %}
+</body>
+</html>

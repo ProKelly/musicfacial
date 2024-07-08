@@ -1,0 +1,41 @@
+{% extends 'main.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+  <div class="max-w-md mx-auto mt-10 p-8 rounded-lg shadow-lg relative">
+    <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-green-500 blur-xl opacity-20"></div>
+    <div class="relative z-10 p-6 rounded-lg shadow-lg">
+      <h1 class="text-3xl font-bold mb-6 text-center text-gold-800">Register</h1>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="mb-4">
+          <label for="username">Username</label>
+          {{ form.username }}
+        </div>
+        <div class="mb-4">
+          <label for="email">email</label>
+          {{ form.email }}
+        </div>
+        <div class="mb-4">
+          <label for="password1">password</label>
+          {{ form.password1 }}
+        </div>
+        <div class="mb-4">
+          <label for="password2">confirm password</label>
+          {{ form.password2 }}
+        </div>
+        <div class="text-center">
+          <button type="submit" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 transform hover:scale-105">
+            Register
+          </button>
+          <div>
+            <p>
+              Already have an account <a href="{% url 'base_app:login' %}" class="text-pink-500">login here</a>
+            </P>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
