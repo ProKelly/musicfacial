@@ -17,13 +17,16 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config('SECRET_KEY')
-YOUTUBE_API_KEY = config('YOUTUBE_API_KEY')
+# SECRET_KEY = config('SECRET_KEY')
+# YOUTUBE_API_KEY = config('YOUTUBE_API_KEY')
+SECRET_KEY = 'django-insecure-wy@5*t%-rwjq4me&pfln2&o*hh7v)dhey(6qc_0*n^6vz%ik(d'
+YOUTUBE_API_KEY ='AIzaSyA8dkw6y0ZKs0nRo7UUlAilcQXV2AGZF2E'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG =False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
