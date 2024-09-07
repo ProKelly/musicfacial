@@ -1,3 +1,8 @@
+# Output 
+
+![Screenshot from 2024-07-06 21-31-32](https://github.com/user-attachments/assets/1f1f9d8a-88ec-47be-92b0-919ae5ea2a1c)
+
+
 # Facial Detection Music Recommender
 
 This project is a web application built using Django that uses facial detection technology to analyze the user's emotions and recommend music based on the detected emotion. The application captures the user's image, detects the dominant emotion using the DeepFace library, and suggests music videos from YouTube that match the emotion.
